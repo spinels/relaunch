@@ -7,6 +7,10 @@
 
 ## 0.15.0 (unreleased)
 
+- Enable keyboard controls only when standard input is a terminal and, on
+  Unix, the runner is in its foreground process group. This avoids stops
+  under supervisors such as Overman and `stty` warnings with redirected
+  input while preserving file watching and automatic restarts.
 - Require Ruby 3.3 or newer.
 - Publish as `relaunch`, preserving the `rerun` command, `.rerun`
   configuration, and `Rerun` namespace.

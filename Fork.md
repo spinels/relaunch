@@ -10,6 +10,18 @@ Fix [#1](https://github.com/spinels/relaunch/issues/1), an intermittent
 Shutdown now waits for the existing detached process waiter instead of
 collecting the child's status with a competing `Process.wait` call.
 
+## September 13, 2026: Require a foreground terminal for keyboard controls
+
+[a4d833e](https://github.com/spinels/relaunch/commit/a4d833e11ce32caf96dde784e9a65950f5df76c2)
+enables keyboard controls only when standard input is a terminal and, on
+Unix, the runner belongs to its foreground process group. This prevents
+terminal access from stopping background process groups under supervisors
+such as Overman and avoids repeated `stty` warnings with redirected input.
+
+File watching and automatic restarts remain enabled when keyboard controls
+are unavailable. The `--background` option still disables keyboard controls
+explicitly.
+
 ## September 13, 2026: Minimum Ruby version
 
 Relaunch requires Ruby 3.3 or newer.
