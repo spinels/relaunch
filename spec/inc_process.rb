@@ -28,7 +28,9 @@ class IncProcess
   # don't call this until you're sure it's running
   def kill
     begin
-      pids = ([@inc_pid, @inc_parent_pid, @rerun_pid] - [Process.pid]).uniq
+      pids = [@inc_pid, @inc_parent_pid, @rerun_pid].select do |pid|
+        pid.is_a?(Integer) && pid > 0 && pid != Process.pid
+      end.uniq
       ::Timeout.timeout(5) do
         pids.each do |pid|
           if windows?
@@ -95,5 +97,3 @@ class IncProcess
   end
 
 end
-
-
