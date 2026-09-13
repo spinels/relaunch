@@ -1,6 +1,19 @@
-# Rerun
+# Relaunch (`alexch/rerun` fork)
 
-<http://github.com/alexch/rerun>
+[![CI](https://github.com/spinels/relaunch/actions/workflows/ci.yml/badge.svg)](https://github.com/spinels/relaunch/actions/workflows/ci.yml)
+
+Relaunch is a drop-in replacement for [Rerun](https://github.com/alexch/rerun).
+Install the `relaunch` gem in place of `rerun`. Existing `rerun` commands,
+`.rerun` configuration, `require "rerun"`, and the `Rerun` namespace keep working.
+The new `relaunch` command is an alias for `rerun`; `require "relaunch"` also
+loads `Rerun`.
+
+See [Changelog.md](Changelog.md) for release notes and [Fork.md](Fork.md)
+for the fork history.
+
+```sh
+relaunch overman start
+```
 
 Rerun launches your program, then watches the filesystem. If a relevant file
 changes, then it restarts your program.
@@ -29,7 +42,7 @@ built-in facilities for monitoring the filesystem, so CPU use is very light.
 
 # Installation:
 
-        gem install rerun
+        gem install relaunch
 
 ("sudo" may be required on older systems, but try it without sudo first.)
 
@@ -37,7 +50,7 @@ If you are using RVM you might want to put this in your global gemset so it's
 available to all your apps. (There really should be a better way to distinguish
 gems-as-libraries from gems-as-tools.)
 
-        rvm @global do gem install rerun
+        rvm @global do gem install relaunch
 
 The Listen gem looks for certain platform-dependent gems, and will complain if
 they're not available. Unfortunately, Rubygems doesn't understand optional
@@ -63,7 +76,7 @@ If you are using rerun inside an existing Ruby application (like a Rails or Sina
 
 ``` ruby
 group :development, :test do
-  gem "rerun"
+  gem "relaunch"
 end
 ```
 
@@ -71,7 +84,7 @@ Using a Gemfile is also an easy way to use the pre-release branch, which may hav
 
 ``` ruby
 group :development, :test do
-  gem "rerun", git: "https://github.com/alexch/rerun.git"
+  gem "relaunch", git: "https://github.com/spinels/relaunch.git"
 end
 ```
 
@@ -158,9 +171,9 @@ Run `rerun --help` to see the actual list.
 `--ignore pattern` file glob to ignore (can be set many times). To ignore a directory, you must append `'/*'` e.g.
   `--ignore 'coverage/*'`.
 
-`--[no-]ignore-dotfiles` By default, on top of --pattern and --ignore, we ignore any changes to files and dirs starting with a dot. Setting `--no-ignore-dotfiles` allows you to monitor a relevant file like .env, but you may also have to explicitly --ignore more dotfiles and dotdirs. 
+`--[no-]ignore-dotfiles` By default, on top of --pattern and --ignore, we ignore any changes to files and dirs starting with a dot. Setting `--no-ignore-dotfiles` allows you to monitor a relevant file like .env, but you may also have to explicitly --ignore more dotfiles and dotdirs.
 
-`--signal` (or `-s`) use specified signal(s) (instead of the default `TERM,INT,KILL`) to terminate the previous process. You can use a comma-delimited list if you want to try a signal, wait up to 5 seconds for the process to die, then try again with a different signal, and so on. 
+`--signal` (or `-s`) use specified signal(s) (instead of the default `TERM,INT,KILL`) to terminate the previous process. You can use a comma-delimited list if you want to try a signal, wait up to 5 seconds for the process to die, then try again with a different signal, and so on.
 This may be useful for forcing the respective process to terminate as quickly as possible.
 (`--signal KILL` is the equivalent of `kill -9`)
 
@@ -353,6 +366,19 @@ you want to restart an app, you should just restart the whole app. You know?
 Guard is very powerful but requires some up-front configuration.
 Rerun is meant as a no-frills command-line alternative requiring no knowledge
 of Ruby nor config file syntax.
+
+## Development
+
+Set up the test dependencies, install the bundle, and run the specs:
+
+```sh
+./bin/setup-deps
+bundle install
+bundle exec rake spec
+```
+
+CI runs the specs and checks gem installation on Linux and macOS.
+See [ci.yml](.github/workflows/ci.yml) for the Ruby versions tested.
 
 # Why did you write this?
 

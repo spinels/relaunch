@@ -5,7 +5,7 @@ require 'rerun/system'
 
 libdir = "#{File.expand_path(File.dirname(File.dirname(__FILE__)))}"
 
-$spec = Gem::Specification.load(File.join(libdir, "..", "rerun.gemspec"))
+$spec = Gem::Specification.load(File.join(libdir, "..", "relaunch.gemspec"))
 
 module Rerun
   class Options

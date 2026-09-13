@@ -18,7 +18,7 @@ $rubyforge_project = 'pivotalrb'
 $spec =
   begin
     require 'rubygems/specification'
-    data = File.read('rerun.gemspec')
+    data = File.read('relaunch.gemspec')
     spec = nil
     #Thread.new { spec = eval("$SAFE = 3\n#{data}") }.join
     spec = eval data

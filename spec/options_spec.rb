@@ -7,7 +7,7 @@ module Rerun
   describe Options do
     it "has good defaults" do
       defaults = Options.parse args: ["foo"]
-      assert {defaults[:cmd] = "foo"}
+      assert {defaults[:cmd] == "foo"}
 
       assert {defaults[:dir] == ["."]}
       assert {defaults[:pattern] == Options::DEFAULT_PATTERN}
@@ -16,7 +16,7 @@ module Rerun
       assert {defaults[:notify] == true}
       assert {defaults[:quiet] == false}
       assert {defaults[:verbose] == false}
-      assert {defaults[:name] == 'Rerun'}
+      assert {defaults[:name] == File.basename(Dir.pwd).capitalize}
       assert {defaults[:force_polling] == false}
       assert {defaults[:ignore_dotfiles] == true}
 

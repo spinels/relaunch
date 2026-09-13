@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    if: github.repository == 'spinels/relaunch' && startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+      - name: Verify release tag
+        run: |
+          ruby -e 'spec = Gem::Specification.load("relaunch.gemspec"); abort "Tag must match v#{spec.version}" unless ENV.fetch("GITHUB_REF_NAME") == "v#{spec.version}"'
+      - name: Build and install gem
+        run: |
+          mkdir -p pkg
+          gem build relaunch.gemspec --output pkg/relaunch.gem
+          gem install pkg/relaunch.gem --no-document
+          rerun --version
+          relaunch --version
+      - name: Attest gem provenance
+        run: gem exec sigstore-cli:0.2.3 sign pkg/relaunch.gem --bundle pkg/relaunch.gem.sigstore.json
+      - uses: rubygems/configure-rubygems-credentials@v1.0.0
+      - name: Publish to RubyGems
+        run: gem push pkg/relaunch.gem --attestation pkg/relaunch.gem.sigstore.json
