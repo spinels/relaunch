@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Fix an intermittent crash when restarting a command with `--exit` by
+  sharing the child's exit-status waiter between startup and shutdown.
+
 ## 0.15.0 (unreleased)
 
 - Require Ruby 3.3 or newer.
