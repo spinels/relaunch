@@ -26,7 +26,7 @@ module Rerun
     end
 
     def start_keypress_thread
-      return if @options[:background]
+      return if @options[:background] || !interactive_terminal?
 
       @keypress_thread = Thread.new do
         while true
@@ -362,6 +362,20 @@ module Rerun
     end
 
     private
+
+    def interactive_terminal?
+      return false unless $stdin.tty?
+      return true if windows?
+
+      # A terminal can be inherited by a background group (e.g. under Overman).
+      # Querying ps avoids platform-specific terminal ioctl constants.
+      foreground_group = IO.popen(['ps', '-o', 'tpgid=', '-p', Process.pid.to_s],
+        err: File::NULL, &:read).to_i
+      foreground_group == Process.getpgrp
+    rescue IOError, SystemCallError
+      false
+    end
+
     def one_char
       c = nil
       msg = $stdin.respond_to?(:wait_readable) ? :wait_readable : :ready?
