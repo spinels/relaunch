@@ -1,6 +1,7 @@
 .idea
 pkg
 Gemfile.lock
+*.gem
 doc
 tmp
 node_modules
