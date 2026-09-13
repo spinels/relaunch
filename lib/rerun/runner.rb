@@ -338,7 +338,7 @@ module Rerun
 
         # 'raw' means turn raw input on
 
-        # restore proper output newline handling -- see stty.rb and "man stty" and /usr/include/sys/termios.h
+        # restore proper output newline handling -- see "man stty" and /usr/include/sys/termios.h
         # looks like "raw" flips off the OPOST bit 0x00000001 /* enable following output processing */
         # which disables #define ONLCR		0x00000002	/* map NL to CR-NL (ala CRMOD) */
         # so this sets it back on again since all we care about is raw input, not raw output
