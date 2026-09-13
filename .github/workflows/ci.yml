@@ -26,7 +26,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - run: ./bin/setup-deps
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}

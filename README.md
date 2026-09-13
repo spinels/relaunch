@@ -369,10 +369,9 @@ of Ruby nor config file syntax.
 
 ## Development
 
-Set up the test dependencies, install the bundle, and run the specs:
+Install the bundle and run the specs:
 
 ```sh
-./bin/setup-deps
 bundle install
 bundle exec rake spec
 ```
