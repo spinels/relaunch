@@ -1,18 +1,19 @@
 # Changelog
 
-## Unreleased
+## 0.16.0
 
 - Fix an intermittent crash when restarting a command with `--exit` by
   sharing the child's exit-status waiter between startup and shutdown.
   ([#4](https://github.com/spinels/relaunch/pull/4))
-
-## 0.15.0 (unreleased)
 
 - Enable keyboard controls only when standard input is a terminal and, on
   Unix, the runner is in its foreground process group. This avoids stops
   under supervisors such as Overman and `stty` warnings with redirected
   input while preserving file watching and automatic restarts.
   ([#3](https://github.com/spinels/relaunch/pull/3))
+
+## 0.15.0
+
 - Require Ruby 3.3 or newer.
   ([29a07e1](https://github.com/spinels/relaunch/commit/29a07e19033f828720d5b563e98df09ca5c054dd))
 - Publish as `relaunch`, preserving the `rerun` command, `.rerun`
