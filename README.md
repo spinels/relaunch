@@ -252,8 +252,12 @@ While the app is (re)running, you can make things happen by pressing keys:
 * **x** or **q** -- exit (just like control-C)
 * **p** -- pause/unpause filesystem watching
 
-If you're backgrounding or using Pry or a debugger, you might not want these
-keys to be trapped, so use the `--background` option.
+Keyboard commands are enabled only when standard input is a terminal and,
+on Unix, rerun belongs to its foreground process group. File watching and
+automatic restarts remain enabled when keyboard commands are unavailable.
+
+Use `--background` to disable keyboard commands explicitly, for example when
+using Pry or a debugger.
 
 # Signals
 

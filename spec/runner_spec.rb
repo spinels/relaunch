@@ -51,6 +51,15 @@ module Rerun
       # TODO: warn that verbose is overridden by quiet if you specify both
     end
 
+    describe "keyboard controls" do
+      it "does not start a keyboard thread when stdin is redirected" do
+        allow($stdin).to receive(:tty?).and_return(false)
+        expect(Thread).not_to receive(:new)
+
+        Runner.new("foo").start_keypress_thread
+      end
+    end
+
     describe "running" do
       it "sends its child process a SIGINT when restarting"
 
