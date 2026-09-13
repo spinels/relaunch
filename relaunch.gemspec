@@ -4,6 +4,7 @@ $spec = Gem::Specification.new do |s|
 
   s.name = 'relaunch'
   s.version = '0.15.0'
+  s.required_ruby_version = '>= 3.3'
 
   s.description = "Restarts your app when a file changes. A no-frills, command-line alternative to Guard, Shotgun, Autotest, etc."
   s.summary     = "Launches an app, and restarts it whenever the filesystem changes. A no-frills, command-line alternative to Guard, Shotgun, Autotest, etc."

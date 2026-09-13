@@ -2,6 +2,7 @@
 
 ## 0.15.0 (unreleased)
 
+- Require Ruby 3.3 or newer.
 - Publish as `relaunch`, preserving the `rerun` command, `.rerun`
   configuration, and `Rerun` namespace.
 - Add `relaunch` as a command alias and `require "relaunch"` as an entry

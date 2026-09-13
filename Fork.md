@@ -3,6 +3,10 @@
 Relaunch is a fork of [alexch/rerun](https://github.com/alexch/rerun).
 Functional changes are listed newest first.
 
+## September 13, 2026: Minimum Ruby version
+
+Relaunch requires Ruby 3.3 or newer.
+
 ## September 13, 2026: Relaunch gem and command alias
 
 The fork uses the gem name `relaunch`, with 0.15.0 as its first planned
