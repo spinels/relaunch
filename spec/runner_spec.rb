@@ -61,6 +61,30 @@ module Rerun
     end
 
     describe "running" do
+      it "preserves the detached child's exit status when stopping in exit mode" do
+        options = Options::DEFAULTS.dup.merge(exit: true, background: true, notify: false)
+        runner = Runner.new("command", options)
+        status = instance_double(Process::Status, success?: false, exitstatus: nil)
+        waiter = instance_double(Thread)
+        watcher = instance_double(Watcher, start: nil, adapter: nil)
+
+        allow(runner).to receive(:run).and_return(12345)
+        allow(runner).to receive(:send_signal).and_return(true)
+        allow(runner).to receive(:notify)
+        allow(runner).to receive(:say)
+        allow(Signal).to receive(:trap)
+        allow(Watcher).to receive(:new).and_return(watcher)
+        allow(Process).to receive(:detach).with(12345).and_return(waiter)
+        allow(waiter).to receive(:join).and_return(waiter)
+        allow(waiter).to receive(:value) { status }
+        # A competing wait consumes the status before the detached waiter can.
+        allow(Process).to receive(:wait).with(12345) { status = nil }
+        allow(runner).to receive(:sleep) { runner.stop }
+
+        expect(runner).to receive(:notify).with("failed", "Exit status ")
+        expect { runner.start }.not_to raise_error
+      end
+
       it "sends its child process a SIGINT when restarting"
 
       it "dies when sent a control-C (SIGINT)"

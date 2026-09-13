@@ -3,6 +3,13 @@
 Relaunch is a fork of [alexch/rerun](https://github.com/alexch/rerun).
 Functional changes are listed newest first.
 
+## September 13, 2026: Preserve exit status during restart
+
+Fix [#1](https://github.com/spinels/relaunch/issues/1), an intermittent
+`undefined method 'success?' for nil` crash when restarting with `--exit`.
+Shutdown now waits for the existing detached process waiter instead of
+collecting the child's status with a competing `Process.wait` call.
+
 ## September 13, 2026: Minimum Ruby version
 
 Relaunch requires Ruby 3.3 or newer.

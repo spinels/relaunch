@@ -163,7 +163,7 @@ module Rerun
         raise ExitException
       end
 
-      status_thread = Process.detach(@pid) # so if the child exits, it dies
+      status_thread = @status_thread = Process.detach(@pid)
 
       Signal.trap("INT") do # INT = control-C -- allows user to stop the top-level rerun process
         die
@@ -250,6 +250,7 @@ module Rerun
     # @returns true if the process dies
     # @returns false if either sending the signal fails or the process fails to die
     def signal_and_wait(signal)
+      status_thread = @status_thread
 
       signal_sent = if windows?
                       force_kill = (signal == 'KILL')
@@ -262,9 +263,9 @@ module Rerun
         # the signal was successfully sent, so wait for the process to die
         begin
           timeout(@options[:wait]) do
-            Process.wait(@pid)
+            status_thread.join
           end
-          process_status = $?
+          process_status = status_thread.value
           say "Process ended: #{process_status}" if verbose?
           true
         rescue Timeout::Error
